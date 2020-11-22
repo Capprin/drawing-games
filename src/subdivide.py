@@ -1,5 +1,5 @@
 # subdivide.py
-# trims image objects into minimum-area bounding boxes, and saves them.
+# trims individual images into minimum-area bounding boxes, and saves them.
 # records metadata about the original translation & orientation of objects
 
 import argparse
@@ -8,7 +8,7 @@ import numpy as np
 import os
 import yaml
 
-def subdivide_file(in_file, out_folder, do_output):
+def subdivide(in_file, out_folder, do_output):
   # open file
   try:
     raw_image = cv2.imread(in_file, cv2.IMREAD_UNCHANGED)
@@ -56,14 +56,14 @@ def subdivide_file(in_file, out_folder, do_output):
       warped = cv2.warpPerspective(raw_image, T, (width, height))
 
       # save image
-      outfile = out_folder + '/item_' + str(i) + '.png'
+      outfile = os.path.join(out_folder,'item_' + str(i) + '.png')
       try:
         cv2.imwrite(outfile, warped)
       except:
         raise Exception("Failed to write to " + outfile + ".")
 
       # construct and save metadata
-      outmeta = out_folder + '/item_' + str(i) + '.yaml'
+      outmeta = os.path.join(out_folder, 'item_' + str(i) + '.yaml')
       metadata = {'center':{'x':rect[0][0], 'y':rect[0][1]},
                   'rotation':rect[2],
                   'dimensions':{'width':width, 'height':height}
@@ -80,4 +80,4 @@ if __name__ == "__main__":
   parser.add_argument('folder', metavar='folder', type=str, help='destination folder for result images')
   parser.add_argument('-o', '--output', default=False, action='store_true', help='include output logging')
   args = parser.parse_args()
-  subdivide_file(args.filename, args.folder, args.output)
+  subdivide(args.filename, args.folder, args.output)
