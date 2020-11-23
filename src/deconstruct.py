@@ -24,7 +24,7 @@ def deconstruct(in_dir, out_dir, verbose_output=False):
     t.set_description('Subdividing: ' + img)
     t.refresh()
 
-    name, ext = os.path.splitext(img)
+    name = os.path.splitext(img)[0]
     curr_out_dir = os.path.join(out_dir, name)
     if not os.path.isdir(curr_out_dir):
       os.mkdir(curr_out_dir)
