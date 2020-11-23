@@ -7,7 +7,7 @@ import os
 import subdivide
 from tqdm import tqdm
 
-def deconstruct(in_dir, out_dir, verbose_output):
+def deconstruct(in_dir, out_dir, verbose_output=False):
   # check directories
   if not os.path.isdir(in_dir):
     raise Exception('Input directory ' + in_dir + ' does not exist.')
@@ -23,7 +23,7 @@ def deconstruct(in_dir, out_dir, verbose_output):
     # update description
     t.set_description('Subdividing: ' + img)
     t.refresh()
-    
+
     name, ext = os.path.splitext(img)
     curr_out_dir = os.path.join(out_dir, name)
     if not os.path.isdir(curr_out_dir):

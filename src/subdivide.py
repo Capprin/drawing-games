@@ -8,7 +8,7 @@ import numpy as np
 import os
 import yaml
 
-def subdivide(in_file, out_folder, do_output):
+def subdivide(in_file, out_folder, do_output=False):
   # open file
   try:
     raw_image = cv2.imread(in_file, cv2.IMREAD_UNCHANGED)
