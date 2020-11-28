@@ -7,12 +7,28 @@ class DrawnType:
 
   # initializes a type. all setup logic must be done in this step
   # end_(ext,sub)_id ought to accurately reflect the id's used
-  def __init__(self, name, node_type='Node2D', parent='.', start_ext_id=1, start_sub_id=1):
+  def __init__(self, name, start_ext_id, start_sub_id, node_type='Node2D', parent='.'):
     self.name = name
     self.node_type = node_type
     self.parent = parent
-    self.end_ext_id=start_ext_id
-    self.end_sub_id=start_sub_id
+    self._curr_ext_id=start_ext_id
+    self._curr_sub_id=start_sub_id
+
+  def _get_ext_id_safe(self):
+    use_id = self._curr_ext_id
+    self._curr_ext_id += 1
+    return use_id
+  
+  def _get_sub_id_safe(self):
+    use_id = self._curr_sub_id
+    self._curr_sub_id += 1
+    return use_id
+
+  def get_last_ext_id(self):
+    return self._curr_ext_id
+  
+  def get_last_sub_id(self):
+    return self._curr_sub_id
 
   # returns all external resources
   def get_ext_resources_string(self):
