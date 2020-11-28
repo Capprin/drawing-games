@@ -44,11 +44,11 @@ def copy_file(out_dir, asset_path, new_name=None, subfolder=None):
 def add_asset(scene, asset_path, out_dir, asset_type=None, meta_path=None):
   global total_assets
   # copy asset to out_dir; all names are safe
-  asset_name = 'asset_' + str(total_assets) + '.png'
-  new_asset_path = copy_file(out_dir, asset_path, asset_name, asset_type)
+  asset_basename = f'asset_{total_assets}'
+  new_asset_path = copy_file(out_dir, asset_path, asset_basename + '.png', asset_type)
   # add a node to the scene (including metadata)
   # added with out_dir as root
-  scene.add_node(asset_name, asset_type, os.path.relpath(new_asset_path, out_dir), meta_path)
+  scene.add_type(asset_basename, asset_type, os.path.relpath(new_asset_path, out_dir), meta_path)
   total_assets += 1
 
 def create_level(pass_files, dec_files, out_dir, out_file, verbose_output):
