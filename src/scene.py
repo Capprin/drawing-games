@@ -42,8 +42,8 @@ class Scene:
     self.ext_resources += add_type.get_ext_resources_string()
     self.sub_resources += add_type.get_sub_resources_string()
     # update id's
-    self.curr_ext_resource_id = add_type.end_ext_id
-    self.curr_sub_resource_id = add_type.end_sub_id
+    self.curr_ext_resource_id = add_type.get_last_ext_id()
+    self.curr_sub_resource_id = add_type.get_last_sub_id()
 
   def write_scene(self, out_path):
     with open(out_path, 'w') as out_file:
