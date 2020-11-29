@@ -4,7 +4,7 @@ import yaml
 
 class Sprite(DrawnType):
 
-  def __init__(self, name, res_image_path, parent='.', meta_path=None, start_ext_id=1, start_sub_id=1):
+  def __init__(self, name, res_image_path, start_ext_id, start_sub_id, parent='.', meta_path=None):
     super().__init__(name, start_ext_id, start_sub_id,'Sprite', parent)
 
     use_id = self._get_ext_id_safe()
@@ -35,7 +35,7 @@ class Sprite(DrawnType):
 
 
 if __name__ == '__main__':
-  sprite = Sprite('test_name', 'images/test_sprite.png')
+  sprite = Sprite('test_name', 'images/test_sprite.png', 1, 1)
   
   # test basic sprite
   print(sprite.get_ext_resources_string() + '\n' + sprite.get_node_string())

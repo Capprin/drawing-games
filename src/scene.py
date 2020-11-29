@@ -3,10 +3,11 @@
 
 from drawntype import DrawnType
 from sprite import Sprite
+from ground import Ground
 
 class Scene:
 
-  TYPES = []
+  TYPES = ['sprite', 'ground']
 
   def __init__(self, level_name=None):
     # populate initial lines
@@ -21,21 +22,22 @@ class Scene:
     self.curr_sub_resource_id = 1
 
   # adds a drawn type, optionally linking an asset and metadata
-  def add_type(self, name, drawn_type=None, asset_path=None, meta_path=None):
+  def add_type(self, name, drawn_type=None, res_asset_path=None, full_asset_path=None, meta_path=None):
     # make asset path safe
-    if asset_path is not None:
-      asset_path = asset_path.replace('\\', '/')
+    if res_asset_path is not None:
+      res_asset_path = res_asset_path.replace('\\', '/')
     
-    # TODO: try to figure out a way to make the current ID less influenced by drawn types
-        # maybe have them hand back an increment, instead of an absolute position?
     add_type = DrawnType(name, start_ext_id=self.curr_ext_resource_id, start_sub_id=self.curr_sub_resource_id)
     # break out for specific node types
     if drawn_type is not None and drawn_type in self.TYPES:
       if drawn_type == 'sprite':
-        add_type = Sprite(name, asset_path, meta_path=meta_path, start_ext_id=self.curr_ext_resource_id, start_sub_id=self.curr_sub_resource_id)
-    elif asset_path is not None:
+        add_type = Sprite(name, res_asset_path, meta_path=meta_path, start_ext_id=self.curr_ext_resource_id, start_sub_id=self.curr_sub_resource_id)
+      elif drawn_type == 'ground':
+        # name changed; expect one ground
+        add_type = Ground('ground', res_asset_path, full_asset_path, self.curr_ext_resource_id, self.curr_sub_resource_id)
+    elif res_asset_path is not None:
       # use sprites, if asset path exists
-      add_type = Sprite(name, asset_path, meta_path=meta_path, start_ext_id=self.curr_ext_resource_id, start_sub_id=self.curr_sub_resource_id)
+      add_type = Sprite(name, res_asset_path, meta_path=meta_path, start_ext_id=self.curr_ext_resource_id, start_sub_id=self.curr_sub_resource_id)
     
     # add node, external, sub content
     self.nodes += add_type.get_node_string()
@@ -57,6 +59,6 @@ class Scene:
 if __name__ == '__main__':
   test_scene = Scene()
   test_scene.add_type("empty_node")
-  test_scene.add_type("sprite_node", asset_path="items/item_0.png")
-  test_scene.add_type("sprite_node_2", asset_path="items/item_0.png")
+  test_scene.add_type("sprite_node", res_asset_path="items/item_0.png")
+  test_scene.add_type("sprite_node_2", res_asset_path="items/item_0.png")
   test_scene.write_scene('tmp.tscn')
