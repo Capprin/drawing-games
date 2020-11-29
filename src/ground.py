@@ -46,7 +46,6 @@ class Ground(DrawnType):
       raw_image = cv2.imread(image_path, cv2.IMREAD_UNCHANGED)
     except:
       # don't generate segments
-      print(f"Couldn't open {image_path}; we knew this would happen")#TODO: remove
       return
     # recolor transparency as white (using threshold)
     trans_thresh = 0.05

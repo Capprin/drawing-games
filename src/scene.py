@@ -4,10 +4,11 @@
 from drawntype import DrawnType
 from sprite import Sprite
 from ground import Ground
+from physics import Physics
 
 class Scene:
 
-  TYPES = ['sprite', 'ground']
+  TYPES = ['sprite', 'ground', 'physics', 'items']
 
   def __init__(self, level_name=None):
     # populate initial lines
@@ -35,12 +36,14 @@ class Scene:
       elif drawn_type == 'ground':
         # name changed; expect one ground
         add_type = Ground('ground', res_asset_path, full_asset_path, self.curr_ext_resource_id, self.curr_sub_resource_id)
+      elif drawn_type == 'physics' or drawn_type == 'items':
+        add_type = Physics(name, res_asset_path, meta_path, self.curr_ext_resource_id, self.curr_sub_resource_id)
     elif res_asset_path is not None:
       # use sprites, if asset path exists
       add_type = Sprite(name, res_asset_path, meta_path=meta_path, start_ext_id=self.curr_ext_resource_id, start_sub_id=self.curr_sub_resource_id)
     
     # add node, external, sub content
-    self.nodes += add_type.get_node_string()
+    self.nodes += add_type.get_node_string() + '\n'
     self.ext_resources += add_type.get_ext_resources_string()
     self.sub_resources += add_type.get_sub_resources_string()
     # update id's
