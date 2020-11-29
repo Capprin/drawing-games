@@ -19,9 +19,10 @@ def subdivide(in_file, out_folder, do_output=False):
   if not os.path.isdir(out_folder):
         raise Exception("Output folder " + out_folder + " does not exist.")
 
-  # recolor transparency as white
+  # recolor transparency as white (using threshold)
+  trans_thresh = 0.05
   mod_image = raw_image.copy()
-  trans_mask = raw_image[:,:,3] == 0
+  trans_mask = raw_image[:,:,3] <= trans_thresh * 255
   mod_image[trans_mask] = [255, 255, 255, 255]
 
   # get all present contours (using Otsu's binarization)
