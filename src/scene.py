@@ -8,7 +8,7 @@ from physics import Physics
 
 class Scene:
 
-  TYPES = ['sprite', 'static', 'physics', 'items']
+  TYPES = ['sprite', 'static', 'physics', 'items', 'platforms']
 
   def __init__(self, level_name=None):
     # populate initial lines
@@ -34,7 +34,9 @@ class Scene:
       if drawn_type == 'sprite':
         add_type = Sprite(name, res_asset_path, meta_path=meta_path, start_ext_id=self.curr_ext_resource_id, start_sub_id=self.curr_sub_resource_id)
       elif drawn_type == 'static':
-        add_type = Static(name, res_asset_path, full_asset_path, self.curr_ext_resource_id, self.curr_sub_resource_id, meta_path)
+        add_type = Static(name, res_asset_path, full_asset_path, self.curr_ext_resource_id, self.curr_sub_resource_id, meta_path=meta_path)
+      elif drawn_type == 'platforms':
+        add_type = Static(name, res_asset_path, full_asset_path, self.curr_ext_resource_id, self.curr_sub_resource_id, meta_path=meta_path, one_way=True)
       elif drawn_type == 'physics' or drawn_type == 'items':
         add_type = Physics(name, res_asset_path, meta_path, self.curr_ext_resource_id, self.curr_sub_resource_id)
     elif res_asset_path is not None:

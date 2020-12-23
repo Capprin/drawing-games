@@ -11,7 +11,7 @@ class Static(DrawnType):
 
   MAX_SEGMENT_ERR_PX = 10
 
-  def __init__(self, name, res_image_path, image_full_path, start_ext_id, start_sub_id, parent='.', meta_path=None):
+  def __init__(self, name, res_image_path, image_full_path, start_ext_id, start_sub_id, parent='.', meta_path=None, one_way=False):
     super().__init__(name, start_ext_id, start_sub_id, node_type='StaticBody2D', parent=parent)
 
     # start node string
@@ -38,15 +38,16 @@ class Static(DrawnType):
     # use provided image to create colliders (using segments from segment.py)
     colliders = segment(image_full_path, self.MAX_SEGMENT_ERR_PX)
     for idx, points_list in enumerate(colliders):
-      self.polygon_node(idx, points_list)
+      self.polygon_node(idx, points_list, one_way)
 
-  def polygon_node(self, idx, points):
+  def polygon_node(self, idx, points, one_way):
     self.node_string += self._node_string(self.name + '_polygon_' + str(idx), 'CollisionPolygon2D', self.name)
     self.node_string += 'polygon = PoolVector2Array( '
     points_string = ""
     for point in points:
       points_string += str(point[0]) + ', ' + str(point[1]) + ', '
     self.node_string += points_string[:-2] + " )\n"
+    self.node_string += "one_way_collision = " + "true" if one_way else "false"
 
   def get_ext_resources_string(self):
     return self.ext_resources_string
