@@ -3,12 +3,12 @@
 
 from drawntype import DrawnType
 from sprite import Sprite
-from ground import Ground
+from static import Static
 from physics import Physics
 
 class Scene:
 
-  TYPES = ['sprite', 'ground', 'physics', 'items']
+  TYPES = ['sprite', 'static', 'physics', 'items']
 
   def __init__(self, level_name=None):
     # populate initial lines
@@ -33,9 +33,8 @@ class Scene:
     if drawn_type is not None and drawn_type in self.TYPES:
       if drawn_type == 'sprite':
         add_type = Sprite(name, res_asset_path, meta_path=meta_path, start_ext_id=self.curr_ext_resource_id, start_sub_id=self.curr_sub_resource_id)
-      elif drawn_type == 'ground':
-        # name changed; expect one ground
-        add_type = Ground('ground', res_asset_path, full_asset_path, self.curr_ext_resource_id, self.curr_sub_resource_id)
+      elif drawn_type == 'static':
+        add_type = Static(name, res_asset_path, full_asset_path, self.curr_ext_resource_id, self.curr_sub_resource_id, meta_path)
       elif drawn_type == 'physics' or drawn_type == 'items':
         add_type = Physics(name, res_asset_path, meta_path, self.curr_ext_resource_id, self.curr_sub_resource_id)
     elif res_asset_path is not None:
