@@ -47,7 +47,7 @@ class Static(DrawnType):
     for point in points:
       points_string += str(point[0]) + ', ' + str(point[1]) + ', '
     self.node_string += points_string[:-2] + " )\n"
-    self.node_string += "one_way_collision = " + "true" if one_way else "false"
+    self.node_string += "one_way_collision = " + ("true\n" if one_way else "false\n")
 
   def get_ext_resources_string(self):
     return self.ext_resources_string

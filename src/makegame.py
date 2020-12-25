@@ -59,14 +59,13 @@ def create_level(pass_files, dec_files, out_dir, out_file, verbose_output):
   for pass_file in t:
     t.set_description('Passthrough: ' + pass_file)
     t.refresh()
+    asset_type = os.path.splitext(os.path.basename(pass_file))[0]
     if os.path.isfile(pass_file):
-      asset_type = os.path.splitext(os.path.basename(pass_file))[0]
       add_asset(scene, pass_file, out_dir, asset_type)
     elif os.path.isdir(pass_file):
       dir_contents = [f for f in os.listdir(pass_file) if f.endswith('.png')]
       for f in dir_contents:
-        asset_type = os.path.splitext(os.path.basename(f))
-        add_asset(scene, f, out_dir, asset_type)
+        add_asset(scene, os.path.join(pass_file, f), out_dir, asset_type)
   
   # handle deconstruct files
   # create temp dir if not exists
